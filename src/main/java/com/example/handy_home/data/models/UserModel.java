@@ -1,25 +1,27 @@
 package com.example.handy_home.data.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "USERS")
+@Table(name="USERS")
+@NoArgsConstructor
 public class UserModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "name", nullable = false, length = 5)
     private String name;
 
-    public void setId(Long id) {
+    public UserModel(Long id, String name) {
         this.id = id;
+        this.name = name;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getName() {
