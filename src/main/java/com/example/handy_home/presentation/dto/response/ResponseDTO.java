@@ -4,7 +4,6 @@ import com.example.handy_home.common.utils.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class ResponseDTO {
-
     @JsonProperty(required = true)
     private final int statusCd;
 

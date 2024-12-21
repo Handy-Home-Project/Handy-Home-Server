@@ -1,7 +1,7 @@
 package com.example.handy_home.presentation.controllers;
 
 import com.example.handy_home.domain.entities.UserEntity;
-import com.example.handy_home.domain.use_case.UserUseCase;
+import com.example.handy_home.domain.use_cases.UserUseCase;
 import com.example.handy_home.presentation.dto.response.CreateUserResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

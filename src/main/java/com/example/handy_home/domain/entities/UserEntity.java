@@ -15,6 +15,6 @@ public record UserEntity(Long id, String name) {
     }
 
     public static boolean isValidUserName(String name) {
-        return name != null && name.length() <= 5;
+        return name != null && name.length() <= 5 && name.matches("^[a-zA-Z가-힣]*$");
     }
 }

@@ -1,4 +1,4 @@
-package com.example.handy_home.domain.use_case;
+package com.example.handy_home.domain.use_cases;
 
 import com.example.handy_home.data.models.UserModel;
 import com.example.handy_home.data.repositories.UserRepository;
