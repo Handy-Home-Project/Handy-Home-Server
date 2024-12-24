@@ -3,7 +3,7 @@ package com.example.handy_home.presentation.dto.response;
 import com.example.handy_home.common.utils.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class ResponseDTO {
+public abstract class ResponseDTO<T> {
     @JsonProperty(required = true)
     private final int statusCd;
 
@@ -14,9 +14,9 @@ public abstract class ResponseDTO {
     private final boolean success;
 
     @JsonProperty(value = "body")
-    private final Object body;
+    private final T body;
 
-    public ResponseDTO(Status status, boolean success, Object body) {
+    public ResponseDTO(Status status, boolean success, T body) {
         this.statusCd = status.code;
         this.statusMsg = status.message;
         this.success = success;
