@@ -2,6 +2,8 @@ package com.example.handy_home.presentation.controllers;
 
 import com.example.handy_home.domain.use_cases.SeleniumUseCase;
 import com.example.handy_home.domain.use_cases.SearchApiUseCase;
+import com.example.handy_home.domain.use_cases.SeleniumWithDevToolsUseCase;
+import com.example.handy_home.presentation.dto.response.FloorPlanResponseDTO;
 import com.example.handy_home.presentation.dto.response.SearchAddressResponseDTO;
 import com.example.handy_home.presentation.dto.response.SearchResultDTO;
 import com.example.handy_home.presentation.dto.response.SearchResultResponseDTO;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "002. Home")
 @RestController
@@ -21,10 +24,12 @@ public class HomeController {
 
     private final SeleniumUseCase seleniumUseCase;
     private final SearchApiUseCase searchApiUseCase;
+    private final SeleniumWithDevToolsUseCase seleniumWithDevToolsUseCase;
 
-    public HomeController(SeleniumUseCase seleniumUseCase, SearchApiUseCase searchApiUseCase) {
+    public HomeController(SeleniumUseCase seleniumUseCase, SearchApiUseCase searchApiUseCase, SeleniumWithDevToolsUseCase seleniumWithDevToolsUseCase) {
         this.seleniumUseCase = seleniumUseCase;
         this.searchApiUseCase = searchApiUseCase;
+        this.seleniumWithDevToolsUseCase = seleniumWithDevToolsUseCase;
     }
 
     @GetMapping("/search")
@@ -36,6 +41,12 @@ public class HomeController {
     public ResponseEntity<SearchResultResponseDTO> searchComplexesWithApi(@RequestParam("keyword") String keyword) {
         List<SearchResultDTO> results = searchApiUseCase.searchComplexes(keyword);
         return ResponseEntity.ok(new SearchResultResponseDTO(results));
+    }
+
+    @GetMapping("/search/floor")
+    public ResponseEntity<FloorPlanResponseDTO> fetchFloorPlanWithDevTool(@RequestParam("deepLink") String deepLink) {
+        List<Map<String, Object>> results = seleniumWithDevToolsUseCase.fetchFloorPlan(deepLink);
+        return ResponseEntity.ok(new FloorPlanResponseDTO(results));
     }
 
 }
