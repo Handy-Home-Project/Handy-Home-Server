@@ -1,8 +1,8 @@
-package com.example.handy_home.presentation.dto.response;
+package com.example.handy_home.presentation.response_dto;
 
 import com.example.handy_home.common.utils.Status;
 import com.example.handy_home.domain.entities.UserEntity;
-import com.example.handy_home.presentation.dto.UserDTO;
+import com.example.handy_home.common.dto.UserDTO;
 
 public class CreateUserResponseDTO extends ResponseDTO<UserDTO> {
 

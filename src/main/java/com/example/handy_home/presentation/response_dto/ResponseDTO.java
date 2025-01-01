@@ -1,4 +1,4 @@
-package com.example.handy_home.presentation.dto.response;
+package com.example.handy_home.presentation.response_dto;
 
 import com.example.handy_home.common.utils.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;

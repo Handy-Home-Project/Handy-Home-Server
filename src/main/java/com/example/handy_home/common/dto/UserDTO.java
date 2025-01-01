@@ -1,4 +1,4 @@
-package com.example.handy_home.presentation.dto;
+package com.example.handy_home.common.dto;
 
 import com.example.handy_home.domain.entities.UserEntity;
 

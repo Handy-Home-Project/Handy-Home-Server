@@ -1,52 +1,43 @@
 package com.example.handy_home.presentation.controllers;
 
-import com.example.handy_home.domain.use_cases.SeleniumUseCase;
-import com.example.handy_home.domain.use_cases.SearchApiUseCase;
-import com.example.handy_home.domain.use_cases.SeleniumWithDevToolsUseCase;
-import com.example.handy_home.presentation.dto.response.FloorPlanResponseDTO;
-import com.example.handy_home.presentation.dto.response.SearchAddressResponseDTO;
-import com.example.handy_home.presentation.dto.response.SearchResultDTO;
-import com.example.handy_home.presentation.dto.response.SearchResultResponseDTO;
+import com.example.handy_home.common.dto.ComplexDetailDTO;
+import com.example.handy_home.domain.use_cases.SearchUseCase;
+import com.example.handy_home.presentation.response_dto.ReadFloorPlansResponseDTO;
+import com.example.handy_home.common.dto.ComplexDTO;
+import com.example.handy_home.presentation.response_dto.ReadSearchSuggestionsResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Tag(name = "002. Home")
 @RestController
 @RequestMapping("/api/home")
 public class HomeController {
 
-    private final SeleniumUseCase seleniumUseCase;
-    private final SearchApiUseCase searchApiUseCase;
-    private final SeleniumWithDevToolsUseCase seleniumWithDevToolsUseCase;
+    // private final SeleniumUseCase seleniumUseCase;
+    private final SearchUseCase searchUseCase;
 
-    public HomeController(SeleniumUseCase seleniumUseCase, SearchApiUseCase searchApiUseCase, SeleniumWithDevToolsUseCase seleniumWithDevToolsUseCase) {
-        this.seleniumUseCase = seleniumUseCase;
-        this.searchApiUseCase = searchApiUseCase;
-        this.seleniumWithDevToolsUseCase = seleniumWithDevToolsUseCase;
+    // private final SeleniumWithDevToolsUseCase seleniumWithDevToolsUseCase;
+
+    public HomeController(/*SeleniumUseCase seleniumUseCase, */SearchUseCase searchUseCase/*, SeleniumWithDevToolsUseCase seleniumWithDevToolsUseCase*/) {
+        // this.seleniumUseCase = seleniumUseCase;
+        this.searchUseCase = searchUseCase;
+        // this.seleniumWithDevToolsUseCase = seleniumWithDevToolsUseCase;
     }
 
     @GetMapping("/search")
-    public ResponseEntity<SearchAddressResponseDTO> searchAddressWithSelenium(@RequestParam("keyword") String keyword) {
-        return ResponseEntity.ok(new SearchAddressResponseDTO(seleniumUseCase.searchKeywordInNaverRealty(keyword)));
+    public ResponseEntity<ReadSearchSuggestionsResponseDTO> getSearchSuggestions(@PathParam("keyword") String keyword) {
+        List<ComplexDTO> results = searchUseCase.getSearchSuggestions(keyword);
+        return ResponseEntity.ok(new ReadSearchSuggestionsResponseDTO(results));
     }
 
-    @GetMapping("/search/api")
-    public ResponseEntity<SearchResultResponseDTO> searchComplexesWithApi(@RequestParam("keyword") String keyword) {
-        List<SearchResultDTO> results = searchApiUseCase.searchComplexes(keyword);
-        return ResponseEntity.ok(new SearchResultResponseDTO(results));
-    }
-
-    @GetMapping("/search/floor")
-    public ResponseEntity<FloorPlanResponseDTO> fetchFloorPlanWithDevTool(@RequestParam("deepLink") String deepLink) {
-        List<Map<String, Object>> results = seleniumWithDevToolsUseCase.fetchFloorPlan(deepLink);
-        return ResponseEntity.ok(new FloorPlanResponseDTO(results));
+    @GetMapping("/floor_plan/{complex_no}")
+    public ResponseEntity<ReadFloorPlansResponseDTO> getFloorPlans(@PathVariable("complex_no") String complexNo) {
+        ComplexDetailDTO results = searchUseCase.getComplexDetails(complexNo);
+        return ResponseEntity.ok(new ReadFloorPlansResponseDTO(results));
     }
 
 }

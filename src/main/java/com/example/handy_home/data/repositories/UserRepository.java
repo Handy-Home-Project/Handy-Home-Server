@@ -2,9 +2,10 @@ package com.example.handy_home.data.repositories;
 
 import com.example.handy_home.data.data_sources.UserDataSource;
 import com.example.handy_home.data.models.UserModel;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-@Service
+@Repository
 public class UserRepository {
 
     private final UserDataSource userDataSource;
