@@ -17,7 +17,7 @@ public class NaverRealtyRepository {
     private static String naverRealtyToken;
 
     public static void setNaverRealtyToken(String token) {
-        System.out.println(token);
+        token.replace("Bearer ", "");
         naverRealtyToken = token;
     }
 
@@ -39,7 +39,7 @@ public class NaverRealtyRepository {
     public Map<String, Object> getAreaListFromComplexNo(String complexNo) {
         final String url = STR."\{NAVER_REALTY_BASE_API_URL}/complexes/\{complexNo}?sameAddressGroup=false";
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(naverRealtyToken);
+        headers.set("authorization", naverRealtyToken);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         final ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {});

@@ -16,16 +16,27 @@ public record ComplexDetailDTO(ComplexDTO complex, List<FloorPlanDTO> floorPlans
         for (Map<String, Object> pyeong : pyeongList) {
             final List<Map<String, Object>> floorPlans = (List<Map<String, Object>>) pyeong.get("grandPlanList");
 
+            if (floorPlans == null || floorPlans.isEmpty()) {
+                continue;
+            }
+
             final Map<String, Object> normalFloorPlan = floorPlans.getFirst();
 
             if (floorPlans.size() == 2) {
-                normalFloorPlan.put("pyeongName", STR."\{normalFloorPlan.get("pyeongName")} (기본형)");
+                normalFloorPlan.put("pyeongName", STR."\{pyeong.get("pyeongName")}² (기본형)");
+                normalFloorPlan.put("pyeongNo", pyeong.get("pyeongNo"));
+                normalFloorPlan.put("supplyAreaDouble", pyeong.get("supplyAreaDouble"));
                 floorPlanList.add(FloorPlanDTO.fromJson(normalFloorPlan));
 
                 final Map<String, Object> expandFloorPlan = floorPlans.getLast();
-                expandFloorPlan.put("pyeongName", STR."\{expandFloorPlan.get("pyeongName")} (확장형)");
+                expandFloorPlan.put("pyeongName", STR."\{pyeong.get("pyeongName")}² (확장형)");
+                expandFloorPlan.put("pyeongNo", pyeong.get("pyeongNo"));
+                expandFloorPlan.put("supplyAreaDouble", pyeong.get("supplyAreaDouble"));
                 floorPlanList.add(FloorPlanDTO.fromJson(expandFloorPlan));
             } else {
+                normalFloorPlan.put("pyeongName", STR."\{pyeong.get("pyeongName")}²");
+                normalFloorPlan.put("pyeongNo", pyeong.get("pyeongNo"));
+                normalFloorPlan.put("supplyAreaDouble", pyeong.get("supplyAreaDouble"));
                 floorPlanList.add(FloorPlanDTO.fromJson(normalFloorPlan));
             }
         }
