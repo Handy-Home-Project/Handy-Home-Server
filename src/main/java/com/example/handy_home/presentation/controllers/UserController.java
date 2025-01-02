@@ -2,6 +2,7 @@ package com.example.handy_home.presentation.controllers;
 
 import com.example.handy_home.domain.entities.UserEntity;
 import com.example.handy_home.domain.use_cases.UserUseCase;
+import com.example.handy_home.presentation.request_dto.CreateUserRequestDTO;
 import com.example.handy_home.presentation.response_dto.CreateUserResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,8 @@ public class UserController {
     }
 
     @PostMapping
-        public ResponseEntity<CreateUserResponseDTO> createUser(@RequestBody Map<String, Object> body) {
-        final UserEntity userEntity = userUseCase.registerUser((String) body.get("name"));
+        public ResponseEntity<CreateUserResponseDTO> createUser(@RequestBody CreateUserRequestDTO body) {
+        final UserEntity userEntity = userUseCase.registerUser(body.name());
         return ResponseEntity.ok(new CreateUserResponseDTO(userEntity));
     }
 
