@@ -1,6 +1,8 @@
 package com.example.handy_home.presentation.controllers;
 
+import com.example.handy_home.common.dto.AnalyzeInteriorDTO;
 import com.example.handy_home.common.dto.ComplexDetailDTO;
+import com.example.handy_home.domain.use_cases.InteriorUseCase;
 import com.example.handy_home.domain.use_cases.SearchUseCase;
 import com.example.handy_home.presentation.response_dto.ReadFloorPlansResponseDTO;
 import com.example.handy_home.common.dto.ComplexDTO;
@@ -10,6 +12,7 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Tag(name = "002. Home")
