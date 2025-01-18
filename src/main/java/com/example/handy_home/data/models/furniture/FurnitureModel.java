@@ -32,24 +32,24 @@ public class FurnitureModel {
     @Column(name = "style", nullable = false)
     private Style style;
 
-    @Column(name = "width", nullable = false)
-    private Double width;
+    @Column(name = "x", nullable = false)
+    private Double x;
 
-    @Column(name = "height", nullable = false)
-    private Double height;
+    @Column(name = "z", nullable = false)
+    private Double z;
 
-    @Column(name = "depth", nullable = false)
-    private Double depth;
+    @Column(name = "y", nullable = false)
+    private Double y;
 
-    public FurnitureModel(String name, Roundness roundness, Material material, Color color, Style style, Double width, Double height, Double depth) {
+    public FurnitureModel(String name, Roundness roundness, Material material, Color color, Style style, Double x, Double z, Double y) {
         this.name = name;
         this.roundness = roundness;
         this.material = material;
         this.color = color;
         this.style = style;
-        this.width = width;
-        this.height = height;
-        this.depth = depth;
+        this.x = x;
+        this.z = z;
+        this.y = y;
     }
 
     // Getters and Setters
@@ -78,17 +78,17 @@ public class FurnitureModel {
     }
 
 
-    public Double getWidth() {
-        return width;
+    public Double getX() {
+        return x;
     }
 
 
-    public Double getHeight() {
-        return height;
+    public Double getZ() {
+        return z;
     }
 
 
-    public Double getDepth() {
-        return depth;
+    public Double getY() {
+        return y;
     }
 }
