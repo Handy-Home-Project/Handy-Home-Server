@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Entity(name = "FURNITURE")
 @Table(name = "FURNITURE")
-@NoArgsConstructor
 public class FurnitureModel {
 
     @Id
@@ -51,6 +50,8 @@ public class FurnitureModel {
         this.z = z;
         this.y = y;
     }
+
+    public FurnitureModel() {}
 
     // Getters and Setters
     public Long getId() {

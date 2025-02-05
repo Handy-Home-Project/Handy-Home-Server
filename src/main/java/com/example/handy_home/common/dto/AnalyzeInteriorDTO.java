@@ -9,4 +9,9 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public record AnalyzeInteriorDTO(Style style, List<Color> colors) {
+
+    @Override
+    public String toString() {
+        return STR."AnalyzeInteriorDTO(style: \{style.toString()}, colors: \{colors.stream().map(color -> STR."\{color.toString()}").toList().toString()})";
+    }
 }
