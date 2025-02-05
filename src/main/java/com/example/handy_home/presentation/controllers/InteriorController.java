@@ -31,7 +31,7 @@ public class InteriorController {
         byte[] imageBytes = image.getBytes();
 
         final AnalyzeInteriorDTO dto = interiorUseCase.getAnalyzeInteriorFromImageUrl(imageBytes, mimeType);
-        System.out.println(dto.style().toString());
+        System.out.println(dto.toString());
 
         return ResponseEntity.ok(null);
     }

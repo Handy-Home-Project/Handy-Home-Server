@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Entity(name = "USERS")
 @Table(name="USERS")
-@NoArgsConstructor
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +18,8 @@ public class UserModel {
         this.id = id;
         this.name = name;
     }
+
+    public UserModel() {}
 
     public Long getId() {
         return id;
