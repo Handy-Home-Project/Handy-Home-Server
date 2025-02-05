@@ -18,4 +18,9 @@ public class UserUseCase {
         final UserModel userModel = userRepository.createUser(name);
         return UserEntity.fromUserModel(userModel);
     }
+
+    public UserEntity getUser(Long userId) {
+        final UserModel userModel = userRepository.getUser(userId);
+        return UserEntity.fromUserModel(userModel);
+    }
 }
