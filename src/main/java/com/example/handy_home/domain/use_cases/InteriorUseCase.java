@@ -51,6 +51,7 @@ The return format must include no additional sentences and should be as follows:
         final Map<String, Object> response = geminiRepository.generateStringFromBase64Image(base64Image, mimeType, prompt);
 
         try {
+            System.out.println(response);
             Map<String, Object> firstCandidate = ((List<Map<String, Object>>) response.get("candidates")).get(0);
             Map<String, Object> content = (Map<String, Object>) firstCandidate.get("content");
             Map<String, Object> firstPart = ((List<Map<String, Object>>) content.get("parts")).get(0);
