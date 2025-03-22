@@ -2,6 +2,7 @@ package com.example.handy_home.presentation.controllers;
 
 import com.example.handy_home.common.dto.AnalyzeInteriorDTO;
 import com.example.handy_home.common.dto.ComplexDTO;
+import com.example.handy_home.domain.use_cases.ImageUseCase;
 import com.example.handy_home.domain.use_cases.InteriorUseCase;
 import com.example.handy_home.presentation.response_dto.ReadSearchSuggestionsResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,14 +22,17 @@ public class InteriorController {
 
     private final InteriorUseCase interiorUseCase;
 
-    public InteriorController(InteriorUseCase interiorUseCase) {
+    private final ImageUseCase imageUseCase;
+
+    public InteriorController(InteriorUseCase interiorUseCase, ImageUseCase imageUseCase) {
         this.interiorUseCase = interiorUseCase;
+        this.imageUseCase = imageUseCase;
     }
 
     @PostMapping(value = "/ai_suggestion", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ReadSearchSuggestionsResponseDTO> getSearchSuggestions(@RequestParam("image") MultipartFile image) throws IOException {
+    public ResponseEntity<ReadSearchSuggestionsResponseDTO> getSearchSuggestions(@RequestParam("image") MultipartFile image) {
         String mimeType = image.getContentType();
-        byte[] imageBytes = image.getBytes();
+        byte[] imageBytes = imageUseCase.resizeImageWithAspectRatio(image, 512);
 
         final AnalyzeInteriorDTO dto = interiorUseCase.getAnalyzeInteriorFromImageUrl(imageBytes, mimeType);
         System.out.println(dto.toString());

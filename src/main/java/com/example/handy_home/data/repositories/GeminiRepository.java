@@ -18,7 +18,6 @@ import java.util.Map;
 public class GeminiRepository {
 
     private static final String GEMINI_BASE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
-
     private final RestTemplate restTemplate = new RestTemplate();
 
     private final Environment env;
@@ -42,6 +41,8 @@ public class GeminiRepository {
             );
 
             final String body = gson.toJson(new GeminiRequestDTO(List.of(new GeminiRequestDTO.Content(parts))));
+            
+            System.out.println(body);
 
             final HttpHeaders headers = new HttpHeaders();
 
@@ -51,8 +52,10 @@ public class GeminiRepository {
             final ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<>(){});
 
             return response.getBody();
-        } catch (Exception _) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 }
+
