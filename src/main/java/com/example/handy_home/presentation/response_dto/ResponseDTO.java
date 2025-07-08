@@ -1,9 +1,8 @@
 package com.example.handy_home.presentation.response_dto;
 
-import com.example.handy_home.common.utils.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class ResponseDTO<T> {
+public class ResponseDTO<T> {
     @JsonProperty(required = true)
     private final int statusCd;
 
@@ -21,6 +20,14 @@ public abstract class ResponseDTO<T> {
         this.statusMsg = status.message;
         this.success = success;
         this.body = body;
+    }
+
+    public static <T> ResponseDTO<T> success(T body) {
+        return new ResponseDTO<>(Status.S0000, true, body);
+    }
+
+    public static <T> ResponseDTO<T> fail(T body) {
+        return new ResponseDTO<>(Status.E0000, false, body);
     }
 }
 

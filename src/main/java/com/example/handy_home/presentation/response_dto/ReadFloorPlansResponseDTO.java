@@ -1,7 +1,6 @@
 package com.example.handy_home.presentation.response_dto;
 
-import com.example.handy_home.common.dto.ComplexDetailDTO;
-import com.example.handy_home.common.utils.Status;
+import com.example.handy_home.core.search.application.dto.ComplexDetailDTO;
 
 public class ReadFloorPlansResponseDTO extends ResponseDTO<ComplexDetailDTO> {
     public ReadFloorPlansResponseDTO(ComplexDetailDTO body) {

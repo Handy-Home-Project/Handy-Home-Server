@@ -1,21 +1,19 @@
 package com.example.handy_home.presentation.controllers;
 
-import com.example.handy_home.common.dto.*;
-import com.example.handy_home.data.models.UserModel;
-import com.example.handy_home.domain.entities.HomeEntity;
-import com.example.handy_home.domain.entities.UserEntity;
-import com.example.handy_home.domain.use_cases.HomeUseCase;
-import com.example.handy_home.domain.use_cases.ImageCacheUseCase;
-import com.example.handy_home.domain.use_cases.SearchUseCase;
-import com.example.handy_home.domain.use_cases.UserUseCase;
-import com.example.handy_home.presentation.response_dto.HomeResponseDTO;
+import com.example.handy_home.core.home.application.HomeService;
+import com.example.handy_home.core.home.application.dto.HomeDTO;
+import com.example.handy_home.core.search.application.SearchUseCase;
+import com.example.handy_home.core.search.application.dto.ComplexDTO;
+import com.example.handy_home.core.search.application.dto.ComplexDetailDTO;
+import com.example.handy_home.core.use_cases.ImageCacheUseCase;
 import com.example.handy_home.presentation.response_dto.ReadFloorPlansResponseDTO;
 import com.example.handy_home.presentation.response_dto.ReadSearchSuggestionsResponseDTO;
+import com.example.handy_home.presentation.response_dto.ResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.websocket.server.PathParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.List;
@@ -23,21 +21,13 @@ import java.util.List;
 @Tag(name = "002. Home")
 @RestController
 @RequestMapping("/api/home")
+@RequiredArgsConstructor
 public class HomeController {
     private final SearchUseCase searchUseCase;
 
     private final ImageCacheUseCase imageCacheUseCase;
 
-    private final UserUseCase userUseCase;
-
-    private final HomeUseCase homeUseCase;
-
-    public HomeController(SearchUseCase searchUseCase, ImageCacheUseCase imageCacheUseCase, UserUseCase userUseCase, HomeUseCase homeUseCase) {
-        this.searchUseCase = searchUseCase;
-        this.imageCacheUseCase = imageCacheUseCase;
-        this.userUseCase = userUseCase;
-        this.homeUseCase = homeUseCase;
-    }
+    private final HomeService homeService;
 
     @GetMapping("/search")
     public ResponseEntity<ReadSearchSuggestionsResponseDTO> getSearchSuggestions(@PathParam("keyword") String keyword) {
@@ -52,14 +42,10 @@ public class HomeController {
     }
 
     @PostMapping("/create_home")
-    public  ResponseEntity<HomeResponseDTO> createHome(@RequestParam("image_url") String imageUrl, @RequestParam("user_id") Long userId) {
+    public  ResponseEntity<ResponseDTO<HomeDTO>> createHome(@RequestParam("image_url") String imageUrl, @RequestParam("user_id") String userId) {
         final File image = imageCacheUseCase.downloadImageToCache(imageUrl);
-        final UserEntity user = userUseCase.getUser(userId);
-        final HomeEntity home = homeUseCase.createHome(image, user);
-
-        final HomeDetailDTO homeDetail = new HomeDetailDTO(HomeDTO.fromHomeEntity(home), UserDTO.fromUserEntity(user));
-
-        return ResponseEntity.ok(new HomeResponseDTO(homeDetail));
+        final HomeDTO home = homeService.createHome(userId, image);
+        return ResponseEntity.ok(ResponseDTO.success(home));
     }
 
 }

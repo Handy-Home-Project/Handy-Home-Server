@@ -1,0 +1,25 @@
+package com.example.handy_home.core.home.domain;
+
+import com.example.handy_home.core.home.domain.emums.RoomType;
+import com.example.handy_home.core.interior.domain.Furniture;
+import jakarta.persistence.*;
+import lombok.Getter;
+
+import java.util.List;
+
+@Entity
+@Getter
+public class Room {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private RoomType type;
+    private String vertexesJson;
+
+    @ManyToOne
+    private Home home;
+
+    @OneToMany(mappedBy = "room")
+    private List<Furniture> furnitures;
+}

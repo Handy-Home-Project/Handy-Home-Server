@@ -1,7 +1,6 @@
 package com.example.handy_home.presentation.response_dto;
 
-import com.example.handy_home.common.dto.ComplexDTO;
-import com.example.handy_home.common.utils.Status;
+import com.example.handy_home.core.search.application.dto.ComplexDTO;
 
 import java.util.List;
 
