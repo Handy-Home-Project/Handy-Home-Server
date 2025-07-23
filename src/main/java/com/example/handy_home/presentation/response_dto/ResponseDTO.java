@@ -30,4 +30,3 @@ public class ResponseDTO<T> {
         return new ResponseDTO<>(Status.E0000, false, body);
     }
 }
-

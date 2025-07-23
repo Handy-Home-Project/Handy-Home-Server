@@ -19,19 +19,19 @@ public class Home {
     @Column(nullable = false)
     private Long id;
 
-
     @Column(nullable = false)
     private String name;
 
     @ManyToOne(optional = false)
     private User user;
 
-    @Column(nullable = false, length = 32767)
-    private String layoutData;
-
     private boolean preview;
 
     @OneToMany(mappedBy = "home")
     private List<Room> rooms;
+
+    public void addRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
 
 }
