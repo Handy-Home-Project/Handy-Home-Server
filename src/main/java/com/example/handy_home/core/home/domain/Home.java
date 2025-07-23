@@ -33,5 +33,4 @@ public class Home {
     public void addRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
-
 }

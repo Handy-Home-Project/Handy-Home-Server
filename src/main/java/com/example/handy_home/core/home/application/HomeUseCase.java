@@ -7,6 +7,7 @@ import com.example.handy_home.core.home.domain.HomeRepository;
 import com.example.handy_home.core.home.domain.Room;
 import com.example.handy_home.core.home.domain.RoomRepository;
 import com.example.handy_home.core.home.domain.emums.RoomType;
+import com.example.handy_home.core.user.application.dto.UserDTO;
 import com.example.handy_home.core.user.domain.User;
 import com.example.handy_home.core.user.domain.UserRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -56,12 +57,18 @@ public class HomeUseCase implements HomeService{
 
             List<Room> saveRooms = roomRepository.saveAll(rooms);
             home.addRooms(saveRooms);
-            return HomeDTO.fromEntity(home);
+            return new HomeDTO(home.getId(), home.getName(), new ArrayList<>(), new UserDTO(home.getUser().getId(), home.getUser().getName(),""));
 
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<HomeDTO> getHomes(String userId) {
+        List<Home> homes = homeRepository.findHomesByUser(userId);
+        return homes.stream().map(HomeDTO::fromEntity).collect(Collectors.toUnmodifiableList());
     }
 
 }

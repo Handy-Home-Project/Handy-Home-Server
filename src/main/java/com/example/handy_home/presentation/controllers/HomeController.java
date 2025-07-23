@@ -42,10 +42,15 @@ public class HomeController {
     }
 
     @PostMapping("/create_home")
-    public  ResponseEntity<ResponseDTO<HomeDTO>> createHome(@RequestParam("image_url") String imageUrl, @RequestParam("user_id") String userId) {
+    public ResponseEntity<ResponseDTO<HomeDTO>> createHome(@RequestParam("image_url") String imageUrl, @RequestParam("user_id") String userId) {
         final File image = imageCacheUseCase.downloadImageToCache(imageUrl);
         final HomeDTO home = homeService.createHome(userId, image);
         return ResponseEntity.ok(ResponseDTO.success(home));
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO<List<HomeDTO>>> getHomes(@RequestParam("userId") String userId) {
+        return ResponseEntity.ok(ResponseDTO.success(homeService.getHomes(userId)));
     }
 
 }
