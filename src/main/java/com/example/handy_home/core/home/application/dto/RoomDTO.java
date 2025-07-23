@@ -1,9 +1,6 @@
 package com.example.handy_home.core.home.application.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
+import com.example.handy_home.core.home.domain.emums.RoomType;
 
 public record RoomDTO(
         String name,

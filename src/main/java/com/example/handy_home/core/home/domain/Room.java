@@ -21,6 +21,7 @@ public class Room {
     private Long id;
     private String name;
     private RoomType type;
+    @Lob
     private String vertexesJson;
 
     @ManyToOne

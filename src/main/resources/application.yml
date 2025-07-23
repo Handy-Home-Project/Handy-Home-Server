@@ -31,3 +31,5 @@ spring:
 gemini:
   api:
     key: ${GEMINI_API_KEY}
+fast-api:
+  url : http://127.0.0.1:8000/predict-floor-plan
