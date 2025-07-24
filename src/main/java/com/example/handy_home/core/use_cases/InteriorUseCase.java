@@ -92,10 +92,10 @@ The return format must include no additional sentences and should be as follows:
         }
     }
 
-    public void getSuggestionInterior(HomeDTO home, List<SampleFurnitureDto> furnitureList)  {
+    public void getSuggestionInterior(String homeJson, List<SampleFurnitureDto> furnitureList)  {
 
         try {
-
+            HomeDTO home = mapper.readValue(homeJson, HomeDTO.class);
             String roomVertexes = getRoomVertexes(home.roomList());
             String furnitures = mapper.writeValueAsString(furnitureList);
 

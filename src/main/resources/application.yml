@@ -4,6 +4,8 @@ server:
   servlet:
     encoding:
       charset: UTF-8
+    multipart:
+      enabled: true
 
 spring:
   application:
