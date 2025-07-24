@@ -16,7 +16,9 @@ public record HomeDTO(
         Long id,
         String name,
         List<RoomDTO> roomList,
-        UserDTO user)
+        UserDTO user,
+        Boolean isPreview
+        )
 {
     // FIXME : Gson 사용은 Util 기능, 별도로 분리해야 함
     public static HomeDTO fromEntity(Home home) {
@@ -24,6 +26,6 @@ public record HomeDTO(
                 .stream()
                 .map(room -> new RoomDTO(room.getName(), room.getVertexesJson(), room.getType().name()))
                 .collect(Collectors.toList());
-        return new HomeDTO(home.getId(), home.getName(), roomDTOList, new UserDTO(home.getUser().getId(), home.getUser().getName(),""));
+        return new HomeDTO(home.getId(), home.getName(), roomDTOList, new UserDTO(home.getUser().getId(), home.getUser().getName(),""), home.isPreview());
     }
 }

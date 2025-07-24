@@ -57,7 +57,7 @@ public class HomeUseCase implements HomeService{
 
             List<Room> saveRooms = roomRepository.saveAll(rooms);
             home.addRooms(saveRooms);
-            return new HomeDTO(home.getId(), home.getName(), new ArrayList<>(), new UserDTO(home.getUser().getId(), home.getUser().getName(),""));
+            return HomeDTO.fromEntity(home);
 
         } catch (Exception e) {
             e.printStackTrace();
