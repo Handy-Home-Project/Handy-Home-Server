@@ -23,7 +23,7 @@ public record HomeDTO(
 {
     // FIXME : Gson 사용은 Util 기능, 별도로 분리해야 함
     public static HomeDTO fromEntity(Home home) {
-        List<RoomDTO> roomDTOList = home.getRooms()
+        List<RoomDTO> roomDTOList = home.getRooms().isEmpty() ? new ArrayList<>() : home.getRooms()
                 .stream()
                 .map(room -> new RoomDTO(room.getName(), room.getVertexesJson(), room.getType().name()))
                 .collect(Collectors.toList());
