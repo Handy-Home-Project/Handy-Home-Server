@@ -6,6 +6,7 @@ import com.example.handy_home.core.home.application.dto.RoomDTO;
 import com.example.handy_home.core.interior.application.dto.SampleFurnitureDto;
 import com.example.handy_home.core.interior.domain.enums.Color;
 import com.example.handy_home.core.interior.domain.enums.Style;
+import com.example.handy_home.core.use_cases.dto.FurniturePlacement;
 import com.example.handy_home.infrastructure.data.GeminiRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -92,7 +93,7 @@ The return format must include no additional sentences and should be as follows:
         }
     }
 
-    public void getSuggestionInterior(String homeJson, List<SampleFurnitureDto> furnitureList)  {
+    public List<FurniturePlacement> getSuggestionInterior(String homeJson, List<SampleFurnitureDto> furnitureList)  {
 
         try {
             HomeDTO home = mapper.readValue(homeJson, HomeDTO.class);
@@ -110,7 +111,7 @@ Return the recommended furniture layout as a JSON string in the following format
 {
     "FurniturePlacement": [
         {
-            "id": "furniture_id",
+            "fileName": "furniture_id",
             "name": "furniture_name",
             "position": { "x": float, "y": float },
             "rotation": float
@@ -135,13 +136,11 @@ Only return the JSON without any additional text.
             JsonNode rootNode = mapper.readTree(text);
 
             JsonNode furniturePlacementNode = rootNode.get("FurniturePlacement");
-            List<FurniturePlacement> result = mapper.readerForListOf(FurniturePlacement.class)
+            return mapper.readerForListOf(FurniturePlacement.class)
                     .readValue(furniturePlacementNode);
-            log.info(result);
 
-        } catch (JsonSyntaxException | JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+
+        } catch (JsonSyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -170,21 +169,5 @@ Only return the JSON without any additional text.
         return mapper.writeValueAsString(arrayNode);
     }
 
-    @Getter
-    @Setter
-    @ToString
-    public static class FurniturePlacement {
-        String id;
-        String name;
-        Position position;
-        int rotation;
-    }
 
-    @Getter
-    @Setter
-    @ToString
-    public static class Position {
-        int x;
-        int y;
-    }
 }

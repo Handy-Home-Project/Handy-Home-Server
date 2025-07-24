@@ -16,4 +16,5 @@ public class SampleFurnitureDto {
     private Color color;
     private Style style;
     private Material material;
+
 }

@@ -6,6 +6,7 @@ import com.example.handy_home.core.interior.application.SampleFurnitureService;
 import com.example.handy_home.core.interior.application.dto.SampleFurnitureDto;
 import com.example.handy_home.core.use_cases.ImageUseCase;
 import com.example.handy_home.core.use_cases.InteriorUseCase;
+import com.example.handy_home.core.use_cases.dto.FurniturePlacement;
 import com.example.handy_home.presentation.response_dto.ResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +33,12 @@ public class InteriorController {
     private final ImageUseCase imageUseCase;
 
     @PostMapping(value = "/ai_suggestion", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseDTO<List<SampleFurnitureDto>>> getSearchSuggestions(@RequestPart("image") MultipartFile image, @RequestPart("home") String home) {
+    public ResponseEntity<ResponseDTO<List<FurniturePlacement>>> getSearchSuggestions(@RequestPart("image") MultipartFile image, @RequestPart("home") String home) {
         String mimeType = image.getContentType();
         byte[] imageBytes = imageUseCase.resizeImageWithAspectRatio(image, 512);
 
         final AnalyzeInteriorDTO dto = interiorUseCase.getAnalyzeInteriorFromImageUrl(imageBytes, mimeType);
         List<SampleFurnitureDto> suggestionFurnitures = sampleFurnitureService.getSuggestionFurnitures(dto.style(), dto.colors());
-        interiorUseCase.getSuggestionInterior(home, suggestionFurnitures);
-        return ResponseEntity.ok(ResponseDTO.success(null));
+        return ResponseEntity.ok(ResponseDTO.success(interiorUseCase.getSuggestionInterior(home, suggestionFurnitures)));
     }
 }
