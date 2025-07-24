@@ -2,6 +2,7 @@ package com.example.handy_home.infrastructure.data;
 
 import com.example.handy_home.common.dto.GeminiRequestDTO;
 import com.google.gson.Gson;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@Log4j2
 public class GeminiRepository {
 
     private static final String GEMINI_BASE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
@@ -43,6 +45,37 @@ public class GeminiRepository {
             final String body = gson.toJson(new GeminiRequestDTO(List.of(new GeminiRequestDTO.Content(parts))));
             
             System.out.println(body);
+
+            final HttpHeaders headers = new HttpHeaders();
+
+            headers.add("Content-Type", "application/json");
+
+            final HttpEntity<String> entity = new HttpEntity<>(body, headers);
+            final ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<>(){});
+
+            return response.getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Map<String, Object> getSuggestionsLocation(String prompt) {
+        try {
+
+            final String apiKey = env.getProperty("gemini.api.key");
+
+            final String url = String.format("%s?key=%s", GEMINI_BASE_API_URL, apiKey);
+
+            final Gson gson = new Gson();
+
+            final List<GeminiRequestDTO.Content.Part> parts = List.of(
+                    new GeminiRequestDTO.Content.Part(prompt, null)
+            );
+
+            final String body = gson.toJson(new GeminiRequestDTO(List.of(new GeminiRequestDTO.Content(parts))));
+
+            log.info(body);
 
             final HttpHeaders headers = new HttpHeaders();
 
