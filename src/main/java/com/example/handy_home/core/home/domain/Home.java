@@ -19,7 +19,7 @@ public class Home {
     @Column(nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column()
     private Long sourceId;
 
     @Column(nullable = false)
