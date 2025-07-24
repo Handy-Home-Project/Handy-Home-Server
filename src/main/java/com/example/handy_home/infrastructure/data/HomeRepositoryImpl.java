@@ -23,4 +23,9 @@ public class HomeRepositoryImpl implements HomeRepository {
     public List<Home> findHomesByUser(String userId) {
         return jpaRepository.findByUserId(userId);
     }
+
+    @Override
+    public Home findHomeById(Long id) {
+        return jpaRepository.findById(id).orElseThrow();
+    }
 }

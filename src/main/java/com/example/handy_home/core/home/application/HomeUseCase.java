@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class HomeUseCase implements HomeService{
+public class HomeUseCase implements HomeService {
 
     private final HomeRepository homeRepository;
     private final UserRepository userRepository;
@@ -63,6 +63,29 @@ public class HomeUseCase implements HomeService{
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public HomeDTO createHomePreview(String userId, Long homeId) {
+        try {
+            Home home = homeRepository.findHomeById(homeId);
+            if (!home.getUser().getId().equals(userId)) throw new Exception();
+
+            Home homePreviewBuilder = Home.builder()
+                    .sourceId(home.getId())
+                    .name(home.getName())
+                    .user(home.getUser())
+                    .preview(true)
+                    .rooms(home.getRooms())
+                    .build();
+
+            Home homePreview = homeRepository.save(homePreviewBuilder);
+            return HomeDTO.fromEntity(homePreview);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @Override

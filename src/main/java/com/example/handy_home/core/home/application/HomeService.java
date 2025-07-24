@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface HomeService {
     HomeDTO createHome(String userId, File image);
+    HomeDTO createHomePreview(String userId, Long homeId);
     List<HomeDTO> getHomes(String userId);
 }

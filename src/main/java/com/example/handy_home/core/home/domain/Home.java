@@ -20,6 +20,9 @@ public class Home {
     private Long id;
 
     @Column(nullable = false)
+    private Long sourceId;
+
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne(optional = false)

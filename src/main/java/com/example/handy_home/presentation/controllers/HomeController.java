@@ -53,4 +53,9 @@ public class HomeController {
         return ResponseEntity.ok(ResponseDTO.success(homeService.getHomes(userId)));
     }
 
+    @PostMapping("/{home_id}/preview")
+    public ResponseEntity<ResponseDTO<HomeDTO>> previewHome(@PathVariable("home_id") Long homeId, @RequestParam("userId") String userId) {
+        return ResponseEntity.ok(ResponseDTO.success(homeService.createHomePreview(userId, homeId)));
+    }
+
 }
