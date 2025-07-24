@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,10 +77,16 @@ public class HomeUseCase implements HomeService {
                     .name(home.getName())
                     .user(home.getUser())
                     .preview(true)
-                    .rooms(home.getRooms())
                     .build();
 
             Home homePreview = homeRepository.save(homePreviewBuilder);
+            Home returnHome = Home.builder()
+                    .sourceId(home.getId())
+                    .name(home.getName())
+                    .rooms(home.getRooms())
+                    .user(home.getUser())
+                    .preview(true)
+                    .build();
             return HomeDTO.fromEntity(homePreview);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,7 +98,8 @@ public class HomeUseCase implements HomeService {
     @Override
     public List<HomeDTO> getHomes(String userId) {
         List<Home> homes = homeRepository.findHomesByUser(userId);
-        return homes.stream().map(HomeDTO::fromEntity).collect(Collectors.toUnmodifiableList());
+        Optional<Home> sourceHome = homes.stream().filter(home -> !home.isPreview()).findFirst();
+        return sourceHome.map(value -> homes.stream().map(home -> new HomeDTO(home.getId(), home.getName(), value.getRooms().stream().map(RoomDTO::fromEntity).toList(), UserDTO.fromEntity(home.getUser()), home.isPreview(), home.getSourceId())).collect(Collectors.toUnmodifiableList())).orElseGet(ArrayList::new);
     }
 
 }
