@@ -98,6 +98,7 @@ public class HomeUseCase implements HomeService {
     @Override
     public List<HomeDTO> getHomes(String userId) {
         List<Home> homes = homeRepository.findHomesByUser(userId);
+        System.out.println(homes.size());
         Optional<Home> sourceHome = homes.stream().filter(home -> !home.isPreview()).findFirst();
         return sourceHome.map(value -> homes.stream().map(home -> new HomeDTO(home.getId(), home.getName(), value.getRooms().stream().map(RoomDTO::fromEntity).toList(), UserDTO.fromEntity(home.getUser()), home.isPreview(), home.getSourceId())).collect(Collectors.toUnmodifiableList())).orElseGet(ArrayList::new);
     }

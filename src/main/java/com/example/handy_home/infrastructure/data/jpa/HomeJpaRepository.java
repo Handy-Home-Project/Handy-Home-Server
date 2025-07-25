@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface HomeJpaRepository extends JpaRepository<Home, Long> {
 
-    @Query("SELECT h FROM HOME h JOIN FETCH h.rooms WHERE h.user.id = :id")
+    @Query("SELECT h FROM HOME h LEFT JOIN FETCH h.rooms WHERE h.user.id = :id")
     List<Home> findByUserId(@Param("id") String id);
 }
